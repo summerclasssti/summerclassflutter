@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
 import 'package:summer_class_app/app/data/model/movie_model.dart';
 
-const baseUrl = 'https://script.google.com/macros/s/AKfycbwpshKDbQ2U0czeq9cUGjObtJvUTBjMqt8iW-dKYV8bqWQQB-RDArNEsdCkMjI6rR2X/exec';
+const baseUrl = 'https://script.google.com/macros/s/AKfycby7fanYDxT76nJ0026jiI6kquTYL3Qa60dg3GfHapUrFp7lFVT3yNUhX7FoWW-kTsyP8w/exec';
 
 class MovieApiClient {
   final http.Client? httpClient;
