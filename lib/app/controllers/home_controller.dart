@@ -24,6 +24,9 @@ class HomeController extends GetxController {
   //Lista de imagens utilizada no VerticalCardPager
   List<Widget> images = [];
 
+  //Lista de títulos utilizada no VerticalCardPager
+  List<String> titles = [];
+
   //Callback executado quando há clique num filme. Index é o inteiro referente ao filme na lista.
   void onSelectedItem(int index) {
     Get.toNamed(Routes.DETAILS, arguments: {"movie_info":movieList[index], "tag": index+1});
@@ -43,6 +46,7 @@ class HomeController extends GetxController {
   void fillMovieInfo(List<MovieModel> movieList) {
     int i = 1;
     for(MovieModel movie in movieList ){
+      titles.add("");
       images.add(
         Hero(
               tag: i,

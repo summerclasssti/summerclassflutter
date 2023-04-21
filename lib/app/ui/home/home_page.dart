@@ -17,7 +17,7 @@ class HomePage extends GetView<HomeController> {
             return controller.isLoading ? const Center(child: CircularProgressIndicator()) :
             VerticalCardPager(
               initialPage: 1,
-              titles: const <String>["","","",""],
+              titles: controller.titles,
               images: controller.images,
               onSelectedItem: controller.onSelectedItem,
             );
