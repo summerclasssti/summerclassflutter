@@ -59,9 +59,22 @@ class HomeController extends GetxController {
               ),
             ),);
       i++;
-
     }
-
+    // Adiciona um card de adicionar depois da lista de filmes
+    titles.add("");
+    images.add(
+      Hero(
+        tag: i,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20.0),
+          child: Image.asset(
+          'assets/add.png',
+          alignment: Alignment.center,
+          fit: BoxFit.fitHeight,
+        ),
+        ),
+      ),);
+    i++;
   }
 
   //Recarrega a lista de Widgets chamando o fetchData().
