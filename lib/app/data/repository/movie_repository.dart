@@ -6,8 +6,14 @@ class MovieRepository {
 
   MovieRepository({@required this.apiClient}) : assert(apiClient != null);
 
-  Future getAll() {
-    return apiClient!.getAll();
+
+
+  // Future getAll() {
+  //   return apiClient!.getAll();
+  // }
+
+  Future getMovies() {
+    return apiClient!.getMovies();
   }
 }
 
