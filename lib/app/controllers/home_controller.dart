@@ -14,6 +14,8 @@ class HomeController extends GetxController {
   final MovieRepository? movieRepository;
   HomeController({@required this.movieRepository}) : assert(movieRepository != null);
 
+  late int onPressedIndex;
+
   //Função executada assim que o controlador é iniciado.
   @override
   void onInit() {
@@ -30,7 +32,8 @@ class HomeController extends GetxController {
 
   //Callback executado quando há clique num filme. Index é o inteiro referente ao filme na lista.
   void onSelectedItem(int index) {
-    Get.toNamed(Routes.DETAILS, arguments: {"movie_info":movieList[index], "tag": index+1});
+    onPressedIndex = index;
+    Get.toNamed(Routes.DETAILS, arguments: {"movie_info":movieList[index], "tag": index + 1});
   }
 
   //Função que busca os dados da API

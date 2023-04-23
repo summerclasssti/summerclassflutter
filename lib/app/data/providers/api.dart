@@ -71,4 +71,16 @@ class MovieApiClient {
     }
     return [];
   }
+
+  deleteMovie(int movieId) async {
+    try {
+      final gsheets = GSheets(_credentials);
+      final ss = await gsheets.spreadsheet(_spreadsheetId);
+      var sheet = ss.worksheetByTitle('Filmes');
+      sheet!.deleteRow(movieId + 1);
+
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
 }
