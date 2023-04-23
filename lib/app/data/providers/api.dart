@@ -76,13 +76,13 @@ class MovieApiClient {
     try {
       final gsheets = GSheets(_credentials);
       final ss = await gsheets.spreadsheet(_spreadsheetId);
-      var sheet = ss.worksheetByTitle('Filmes');
+      final sheet = ss.worksheetByTitle('Filmes');
 
       await sheet?.deleteRow(movieId + 1);
 
+      // TODO: colocar reorganização dos ids em função separada
       final cellsColumn = await sheet?.cells.column(1);
       for (int i = movieId; i < cellsColumn!.length; i++) {
-        debugPrint(cellsColumn[i].value);
         cellsColumn[i].post(i);
       }
     } catch (e) {

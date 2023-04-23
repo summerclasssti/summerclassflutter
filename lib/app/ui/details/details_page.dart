@@ -48,13 +48,20 @@ class DetailsPage extends StatelessWidget {
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 22),),
-                    IconButton(
-                      onPressed: _.onPressedLikeBtn,
-                      icon: GetX<DetailsController>(
-                        builder: (_) {
-                        return Icon(_.likedMovie ? Icons.favorite : Icons.favorite_border);
-                      },
-                    ), color: Colors.red,)
+                    Row (
+                      children: [
+                        ElevatedButton(
+                            onPressed: _.onPressedDeleteButton,
+                            child: const Text("Deletar")),
+                        IconButton(
+                          onPressed: _.onPressedLikeBtn,
+                          icon: GetX<DetailsController>(
+                            builder: (_) {
+                              return Icon(_.likedMovie ? Icons.favorite : Icons.favorite_border);
+                            },
+                          ), color: Colors.red,)
+                      ],
+                    ),
                   ],
                 ),
                 Text(movieInfo.diretor, style: const TextStyle(

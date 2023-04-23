@@ -99,6 +99,7 @@ class HomeController extends GetxController {
   void reloadData() {
     isLoading = true;
     update();
+    titles = [];
     images = [];
     fetchMovies();
   }

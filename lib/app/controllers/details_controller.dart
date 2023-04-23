@@ -16,10 +16,12 @@ class DetailsController extends GetxController {
 
   //Executado ao pressionar o coração de like.
   void onPressedLikeBtn() {
-    debugPrint(movieId.toString());
     likedMovie = !likedMovie;
+  }
+
+  //Executado ao pressionar o botão excluir.
+  void onPressedDeleteButton() {
     movieRepository?.deleteMovie(movieId);
     Get.offAllNamed(Routes.HOME);
-    update();
   }
 }
