@@ -85,11 +85,7 @@ class HomeController extends GetxController {
         tag: i,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20.0),
-          child: Image.asset(
-          'assets/add.png',
-          alignment: Alignment.center,
-          fit: BoxFit.fitHeight,
-          ),
+          child: const Icon(Icons.add_box_rounded, color: Colors.blue, size: 200)
         ),
       ),);
     i++;
