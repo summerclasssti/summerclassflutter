@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:summer_class_app/app/controllers/home_controller.dart';
+import 'package:summer_class_app/app/routes/app_pages.dart';
 import '../data/repository/movie_repository.dart';
 
 class DetailsController extends GetxController {
@@ -18,5 +19,7 @@ class DetailsController extends GetxController {
     debugPrint(movieId.toString());
     likedMovie = !likedMovie;
     movieRepository?.deleteMovie(movieId);
+    Get.offAllNamed(Routes.HOME);
+    update();
   }
 }

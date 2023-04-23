@@ -77,8 +77,14 @@ class MovieApiClient {
       final gsheets = GSheets(_credentials);
       final ss = await gsheets.spreadsheet(_spreadsheetId);
       var sheet = ss.worksheetByTitle('Filmes');
-      sheet!.deleteRow(movieId + 1);
 
+      await sheet?.deleteRow(movieId + 1);
+
+      final cellsColumn = await sheet?.cells.column(1);
+      for (int i = movieId; i < cellsColumn!.length; i++) {
+        debugPrint(cellsColumn[i].value);
+        cellsColumn[i].post(i);
+      }
     } catch (e) {
       debugPrint(e.toString());
     }
