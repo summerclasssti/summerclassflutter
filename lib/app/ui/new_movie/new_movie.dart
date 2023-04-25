@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 // import 'package:http/http.dart' as http;
 import 'package:summer_class_app/app/controllers/new_movie_controller.dart';
 
-class NewMoviePage extends StatelessWidget {
+class NewMoviePage extends GetView<NewMovieController> {
   const NewMoviePage({Key? key}) : super(key: key);
 
   @override
@@ -11,7 +11,6 @@ class NewMoviePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('New Movie Page')),
       body: GetBuilder<NewMovieController>(
-        init: NewMovieController(),
         builder: (_) {
           return const Center(child: Text("Work in progress"));
         }
