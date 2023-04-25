@@ -33,7 +33,11 @@ class HomeController extends GetxController {
   //Callback executado quando há clique num filme. Index é o inteiro referente ao filme na lista.
   void onSelectedItem(int index) {
     onPressedIndex = index;
-    Get.toNamed(Routes.DETAILS, arguments: {"movie_info":movieList[index], "tag": index + 1});
+    if (index >= movieList.length) {
+      Get.toNamed(Routes.NEW_MOVIE);
+    } else {
+      Get.toNamed(Routes.DETAILS, arguments: {"movie_info":movieList[index], "tag": index + 1});
+    }
   }
 
   //Função que busca os dados da API
@@ -88,7 +92,6 @@ class HomeController extends GetxController {
           child: const Icon(Icons.add_box_rounded, color: Colors.blue, size: 200)
         ),
       ),);
-    i++;
   }
 
   //Recarrega a lista de Widgets chamando o fetchData().

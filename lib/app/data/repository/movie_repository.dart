@@ -10,6 +10,10 @@ class MovieRepository {
   //   return apiClient!.getAll();
   // }
 
+  Future getSheet() {
+    return apiClient!.getSheet();
+  }
+
   Future getMovies() {
     return apiClient!.getMovies();
   }
@@ -18,4 +22,3 @@ class MovieRepository {
     return apiClient!.deleteMovie(index);
   }
 }
-
