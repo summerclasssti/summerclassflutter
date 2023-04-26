@@ -34,7 +34,7 @@ class HomeController extends GetxController {
   void onSelectedItem(int index) {
     onPressedIndex = index;
     if (index >= movieList.length) {
-      Get.toNamed(Routes.NEW_MOVIE);
+      Get.toNamed(Routes.NEW_MOVIE, arguments: {"index": index});
     } else {
       Get.toNamed(Routes.DETAILS, arguments: {"movie_info":movieList[index], "tag": index + 1});
     }

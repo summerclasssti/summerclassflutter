@@ -7,6 +7,12 @@ class NewMoviePage extends GetView<NewMovieController> {
   NewMoviePage({Key? key}) : super(key: key);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  String? titulo;
+  String? diretor = "Nome do diretor pendente";
+  String? sinopse = "Sinópse pendente";
+  String? img;
+  int index = Get.arguments["index"];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,25 +26,67 @@ class NewMoviePage extends GetView<NewMovieController> {
               children: [
                 TextFormField(
                   decoration: const InputDecoration(
-                    hintText: 'Teste...',
+                    hintText: 'Título',
                   ),
-                  validator: (String? value) {
+                  onSaved: (String? value) {
+                    titulo = value;
                     if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
+                      titulo = "Título pendente";
                     }
-                    return null;
                   },
+                  // validator: (String? value) {
+                  //   if (value == null || value.isEmpty) {
+                  //     return "Título pendente";
+                  //   }
+                  //   return null;
+                  // },
                 ),
                 TextFormField(
                   decoration: const InputDecoration(
-                    hintText: 'Teste2...',
+                    hintText: 'Diretor',
                   ),
-                  validator: (String? value) {
+                  onSaved: (String? value) {
+                    diretor = value;
                     if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
+                      diretor = "Diretor pendente";
                     }
-                    return null;
                   },
+                  // validator: (String? value) {
+                  //   if (value == null || value.isEmpty) {
+                  //     return "Diretor pendente";
+                  //   }
+                  //   return null;
+                  // },
+                ),TextFormField(
+                  decoration: const InputDecoration(
+                    hintText: 'Sinopse',
+                  ),
+                  onSaved: (String? value) {
+                    sinopse = value!;
+                    if (value == null || value.isEmpty) {
+                      sinopse = "Sinopse pendente";
+                    }
+                  },
+                  // validator: (String? value) {
+                  //   if (value == null || value.isEmpty) {
+                  //     return "Sinopse pendente";
+                  //   }
+                  //   return null;
+                  // },
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    hintText: 'Img url',
+                  ),
+                  onSaved: (String? value) {
+                    img = value;
+                  },
+                  // validator: (String? value) {
+                  //   if (value == null || value.isEmpty) {
+                  //     return 'Url pendente';
+                  //   }
+                  //   return null;
+                  // },
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -48,6 +96,9 @@ class NewMoviePage extends GetView<NewMovieController> {
                       // the form is invalid.
                       if (_formKey.currentState!.validate()) {
                         // Process data.
+                        _formKey.currentState!.save();
+                        debugPrint(_formKey.currentState.toString());
+                        debugPrint("1:$titulo 2:$diretor 3:$sinopse 4:$img");
                       }
                     },
                     child: const Text('Submit'),
