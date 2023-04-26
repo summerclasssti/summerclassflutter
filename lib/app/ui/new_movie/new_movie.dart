@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gsheets/gsheets.dart';
 // import 'package:http/http.dart' as http;
 import 'package:summer_class_app/app/controllers/new_movie_controller.dart';
+import 'package:summer_class_app/app/data/repository/movie_repository.dart';
 
 class NewMoviePage extends GetView<NewMovieController> {
   NewMoviePage({Key? key}) : super(key: key);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  int newIndex = Get.arguments["newIndex"];
   String? titulo;
-  String? diretor = "Nome do diretor pendente";
-  String? sinopse = "Sinópse pendente";
+  String? diretor;
+  String? sinopse;
   String? img;
-  int index = Get.arguments["index"];
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +82,9 @@ class NewMoviePage extends GetView<NewMovieController> {
                   ),
                   onSaved: (String? value) {
                     img = value;
+                    if (value == null || value.isEmpty) {
+                      img = "https://umquatroquatro.com.br/wp-content/uploads/%C3%ADcone-claquete.png";
+                    }
                   },
                   // validator: (String? value) {
                   //   if (value == null || value.isEmpty) {
@@ -91,17 +96,17 @@ class NewMoviePage extends GetView<NewMovieController> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       // Validate will return true if the form is valid, or false if
                       // the form is invalid.
                       if (_formKey.currentState!.validate()) {
                         // Process data.
                         _formKey.currentState!.save();
-                        debugPrint(_formKey.currentState.toString());
-                        debugPrint("1:$titulo 2:$diretor 3:$sinopse 4:$img");
+                        debugPrint(newIndex.toString());
+                        controller.postMovie(newIndex, titulo!, diretor!, sinopse!, img!);
                       }
                     },
-                    child: const Text('Submit'),
+                    child: const Text('Salvar'),
                   ),
                 ),
               ],

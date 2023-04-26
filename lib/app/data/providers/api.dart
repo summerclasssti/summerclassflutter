@@ -97,5 +97,11 @@ class MovieApiClient {
       debugPrint(e.toString());
     }
   }
+
+  postMovie(int index, String titulo, String diretor, String sinopse, String img) async {
+    var sheet = await getSheet();
+    final novo = [index, titulo, diretor, sinopse, img];
+    await sheet!.values.insertRow(index + 1, novo);
+  }
 }
 

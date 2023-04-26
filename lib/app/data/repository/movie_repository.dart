@@ -21,4 +21,8 @@ class MovieRepository {
   Future deleteMovie(int index) {
     return apiClient!.deleteMovie(index);
   }
+
+  Future postMovie(int index, String titulo, String diretor, String sinopse, String img) {
+    return apiClient!.postMovie(index, titulo, diretor, sinopse, img);
+  }
 }

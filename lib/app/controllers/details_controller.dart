@@ -8,6 +8,8 @@ class DetailsController extends GetxController {
   final MovieRepository? movieRepository;
   DetailsController({@required this.movieRepository});
 
+  final HomeController homeController = Get.find();
+
   //Variável observável. Ao atualizá-la os Widgets GetX e ObX que a contém também são atualizados.
   final _likedMovie = false.obs;
   final movieId = Get.find<HomeController>().onPressedIndex + 1;
@@ -22,6 +24,9 @@ class DetailsController extends GetxController {
   //Executado ao pressionar o botão excluir.
   void onPressedDeleteButton() {
     movieRepository?.deleteMovie(movieId);
-    Get.offAllNamed(Routes.HOME);
+    Future.delayed(const Duration(seconds: 3), () {
+      homeController.reloadData();
+      Get.offAllNamed(Routes.HOME);
+    });
   }
 }
