@@ -13,6 +13,7 @@ class DetailsController extends GetxController {
   //Variável observável. Ao atualizá-la os Widgets GetX e ObX que a contém também são atualizados.
   final _likedMovie = false.obs;
   final movieId = Get.find<HomeController>().onPressedIndex + 1;
+  final movieInfo = Get.arguments["movie_info"];
   get likedMovie => _likedMovie.value;
   set likedMovie(value) => _likedMovie.value = value;
 
@@ -28,5 +29,9 @@ class DetailsController extends GetxController {
       homeController.reloadData();
       Get.offAllNamed(Routes.HOME);
     });
+  }
+
+  void onPressedUpdateButton() {
+    Get.toNamed(Routes.UPDATE_MOVIE, arguments: {"index": movieId, "movie_info": movieInfo});
   }
 }

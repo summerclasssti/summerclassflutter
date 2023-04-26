@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:summer_class_app/app/data/providers/api.dart';
 
@@ -23,6 +24,11 @@ class MovieRepository {
   }
 
   Future postMovie(int index, String titulo, String diretor, String sinopse, String img) {
+    return apiClient!.postMovie(index, titulo, diretor, sinopse, img);
+  }
+
+  Future updateMovie(int index, String titulo, String diretor, String sinopse, String img) {
+    debugPrint("Checkpoint -------------------------------");
     return apiClient!.postMovie(index, titulo, diretor, sinopse, img);
   }
 }

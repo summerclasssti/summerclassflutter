@@ -8,4 +8,5 @@ abstract class Routes{
   static const HOME = '/home';
   static const DETAILS = '/details';
   static const NEW_MOVIE = '/new_movie';
+  static const UPDATE_MOVIE = '/update_movie';
 }

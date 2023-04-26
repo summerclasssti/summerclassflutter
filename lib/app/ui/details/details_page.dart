@@ -51,6 +51,11 @@ class DetailsPage extends StatelessWidget {
                     Row (
                       children: [
                         IconButton(
+                          onPressed: _.onPressedUpdateButton,
+                          icon: const Icon(Icons.add_box_rounded),
+                          color: Colors.red,
+                        ),
+                        IconButton(
                           onPressed: _.onPressedDeleteButton,
                           icon: const Icon(Icons.delete),
                           color: Colors.red,
