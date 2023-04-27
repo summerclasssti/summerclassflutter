@@ -56,7 +56,12 @@ class DetailsPage extends StatelessWidget {
                           color: Colors.red,
                         ),
                         IconButton(
-                          onPressed: _.onPressedDeleteButton,
+                          onPressed: () {
+                            debugPrint("------------------------------ CHECKPOINT ------------------------------");
+                            _.onPressedDeleteButton();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Deletando...')));
+                          },
                           icon: const Icon(Icons.delete),
                           color: Colors.red,
                         ),

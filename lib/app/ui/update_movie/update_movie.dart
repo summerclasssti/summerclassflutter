@@ -111,6 +111,8 @@ class UpdateMoviePage extends GetView<UpdateMovieController> {
                             _formKey.currentState!.save();
                             debugPrint(updateIndex.toString());
                             controller.updateMovie(updateIndex, titulo!, diretor!, sinopse!, img!);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Salvando...')));
                           }
                         },
                         child: const Text('Salvar'),

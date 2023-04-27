@@ -102,8 +102,9 @@ class NewMoviePage extends GetView<NewMovieController> {
                       if (_formKey.currentState!.validate()) {
                         // Process data.
                         _formKey.currentState!.save();
-                        debugPrint(newIndex.toString());
                         controller.postMovie(newIndex, titulo!, diretor!, sinopse!, img!);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Salvando...')));
                       }
                     },
                     child: const Text('Salvar'),
