@@ -57,7 +57,6 @@ class DetailsPage extends StatelessWidget {
                         ),
                         IconButton(
                           onPressed: () {
-                            debugPrint("------------------------------ CHECKPOINT ------------------------------");
                             _.onPressedDeleteButton();
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(content: Text('Deletando...')));
