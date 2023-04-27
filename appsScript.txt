@@ -1,0 +1,71 @@
+function doGet(e) {
+  var func = e.parameter.function;
+
+  if (func == "getMovies") {
+    return getMovies();
+  } else {
+    return ContentService.createTextOutput(`Função ${func} não encontrada`);
+  }
+}
+
+function doPost(e) {
+  var func = e.parameter.function;
+
+  switch(func) {
+    case 'postMovie':
+      return postMovie(e);
+    case 'deleteMovie':
+      return deleteMovie(e);
+    default:
+      return ContentService.createTextOutput(`Função ${func} não encontrada`);
+  }
+}
+
+function getMovies() {
+  var sheet = SpreadsheetApp.openById("1JClY82U2bNpZd8pyOmPGnynUJbWEB_-0NbKKV5QK7CA");
+  var values = sheet.getActiveSheet().getDataRange().getValues();
+  var data = [];
+
+  // começando em 1, pois a primeira coluna é apenas o id de cada página.
+  for (var i = 1; i < values.length; i ++) {
+    var row = values[i];
+    var feedback = {};
+    feedback['id'] = row[0];
+    feedback['titulo'] = row[1].toString();
+    feedback['diretor'] = row[2].toString();
+    feedback['sinopse'] = row[3].toString();
+    feedback['img'] = row[4].toString();
+
+    data.push(feedback);
+  }
+
+  return ContentService.createTextOutput(JSON.stringify(data)).setMimeType(ContentService.MimeType.JSON);
+}
+
+function postMovie (e) {
+  var sheet = SpreadsheetApp.openById("1JClY82U2bNpZd8pyOmPGnynUJbWEB_-0NbKKV5QK7CA");
+  var page = sheet.getSheetByName("Página 1");
+
+  var rowIndex = e.parameter.index;
+  var titulo = e.parameter.titulo;
+  var diretor = e.parameter.diretor;
+  var sinopse = e.parameter.sinopse;
+  var img = e.parameter.img;
+
+  // range(linha, coluna, rangeLinha, rangeColuna)
+  var range = page.getRange(rowIndex, 1, 1, 5);
+
+  range.setValues([[rowIndex, titulo, diretor, sinopse, img]]);
+
+  return ContentService.createTextOutput(`Salvo...`);
+}
+
+function deleteMovie () {
+  var sheet = SpreadsheetApp.openById("1JClY82U2bNpZd8pyOmPGnynUJbWEB_-0NbKKV5QK7CA");
+  // var rowToDelete = e["index"];
+
+  sheet.deleteRow(1);
+
+  return ContentService.createTextOutput(`Deletado...`);
+}
+
