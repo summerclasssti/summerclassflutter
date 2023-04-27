@@ -19,8 +19,7 @@ class HomeController extends GetxController {
   //Função executada assim que o controlador é iniciado.
   @override
   void onInit() {
-    // fetchData();
-    fetchMovies();
+    fetchData();
     super.onInit();
   }
 
@@ -41,27 +40,13 @@ class HomeController extends GetxController {
   }
 
   //Função que busca os dados da API
-  // void fetchData() {
-  //   movieRepository?.getAll().then((value) {
-  //     // movieList = value;
-  //     // fillMovieInfo(movieList);
-  //     // isLoading = false;
-  //     // update();
-  //   });
-  // }
-
-  void fetchMovies() {
-    try {
-      movieRepository?.getMovies().then((value) {
-        movieList = value;
-        fillMovieInfo(movieList);
-        isLoading = false;
-        update();
-      });
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-
+  void fetchData() {
+    movieRepository?.getAll().then((value) {
+      movieList = value;
+      fillMovieInfo(movieList);
+      isLoading = false;
+      update();
+    });
   }
 
   //Preenche a lista de Widgets que ficam na HomePage. Recebe uma lista de MovieModel.
@@ -100,6 +85,6 @@ class HomeController extends GetxController {
     update();
     titles = [];
     images = [];
-    fetchMovies();
+    fetchData();
   }
 }

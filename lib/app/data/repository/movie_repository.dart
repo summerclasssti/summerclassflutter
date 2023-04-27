@@ -7,16 +7,12 @@ class MovieRepository {
 
   MovieRepository({@required this.apiClient}) : assert(apiClient != null);
 
-  // Future getAll() {
-  //   return apiClient!.getAll();
-  // }
+  Future getAll() {
+    return apiClient!.getAll();
+  }
 
   Future getSheet() {
     return apiClient!.getSheet();
-  }
-
-  Future getMovies() {
-    return apiClient!.getMovies();
   }
 
   Future deleteMovie(int index) {
@@ -28,7 +24,6 @@ class MovieRepository {
   }
 
   Future updateMovie(int index, String titulo, String diretor, String sinopse, String img) {
-    debugPrint("Checkpoint -------------------------------");
     return apiClient!.postMovie(index, titulo, diretor, sinopse, img);
   }
 }
