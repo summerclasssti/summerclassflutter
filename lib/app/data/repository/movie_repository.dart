@@ -11,10 +11,6 @@ class MovieRepository {
     return apiClient!.getAll();
   }
 
-  Future getSheet() {
-    return apiClient!.getSheet();
-  }
-
   Future deleteMovie(int index) {
     return apiClient!.deleteMovie(index);
   }

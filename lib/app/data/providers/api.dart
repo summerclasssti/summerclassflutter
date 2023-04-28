@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gsheets/gsheets.dart';
 import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
@@ -13,8 +12,6 @@ class MovieApiClient {
   final http.Client? httpClient;
 
   MovieApiClient({@required this.httpClient});
-
-  final _spreadsheetId = "1JClY82U2bNpZd8pyOmPGnynUJbWEB_-0NbKKV5QK7CA";
 
   Future<List<MovieModel>> getAll() async {
     try {
@@ -31,20 +28,6 @@ class MovieApiClient {
       debugPrint("Error fetching from API: $e");
     }
     return [];
-  }
-
-  Future<Worksheet?> getSheet() async {
-    try {
-      await dotenv.load(fileName: '.env');
-      final _credentials = dotenv.env["CRED"];
-      final gsheets = GSheets(_credentials);
-      final ss = await gsheets.spreadsheet(_spreadsheetId);
-      final sheet = ss.worksheetByTitle('Página 1');
-
-      return sheet;
-    } catch (e) {
-      debugPrint(e.toString());
-    }
   }
 
   deleteMovie(int movieId) async {
