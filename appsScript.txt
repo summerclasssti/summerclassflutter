@@ -46,25 +46,33 @@ function postMovie (e) {
   var sheet = SpreadsheetApp.openById("1JClY82U2bNpZd8pyOmPGnynUJbWEB_-0NbKKV5QK7CA");
   var page = sheet.getSheetByName("Página 1");
 
-  var rowIndex = e.parameter.index;
+  var movieId = e.parameter.index;
+  var rowToPost = parseInt(e.parameter.index) + 1;
   var titulo = e.parameter.titulo;
   var diretor = e.parameter.diretor;
   var sinopse = e.parameter.sinopse;
   var img = e.parameter.img;
 
-  // range(linha, coluna, rangeLinha, rangeColuna)
-  var range = page.getRange(rowIndex, 1, 1, 5);
+  // range(linha, coluna, numLinhas, numColunas)
+  var range = page.getRange(rowToPost, 1, 1, 5);
 
-  range.setValues([[rowIndex, titulo, diretor, sinopse, img]]);
+  range.setValues([[movieId, titulo, diretor, sinopse, img]]);
 
   return ContentService.createTextOutput(`Salvo...`);
 }
 
 function deleteMovie (e) {
   var sheet = SpreadsheetApp.openById("1JClY82U2bNpZd8pyOmPGnynUJbWEB_-0NbKKV5QK7CA");
-  var rowToDelete = e.parameter.index;
+  var page = sheet.getSheetByName("Página 1");
+
+  var rowToDelete = parseInt(e.parameter.index) + 1;
+  var lastRow = sheet.getLastRow();
 
   sheet.deleteRow(rowToDelete);
 
-  return ContentService.createTextOutput(`Deletado...`);
+  for (var i = rowToDelete; i <= lastRow - 1; i++) {
+    page.getRange(i, 1).setValue(i - 1);
+  }
+
+  return ContentService.createTextOutput("Deletado...");
 }
