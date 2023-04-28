@@ -60,12 +60,11 @@ function postMovie (e) {
   return ContentService.createTextOutput(`Salvo...`);
 }
 
-function deleteMovie () {
+function deleteMovie (e) {
   var sheet = SpreadsheetApp.openById("1JClY82U2bNpZd8pyOmPGnynUJbWEB_-0NbKKV5QK7CA");
-  // var rowToDelete = e["index"];
+  var rowToDelete = e.parameter.index;
 
-  sheet.deleteRow(1);
+  sheet.deleteRow(rowToDelete);
 
   return ContentService.createTextOutput(`Deletado...`);
 }
-

@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
 import 'package:summer_class_app/app/data/model/movie_model.dart';
 
-const baseUrl = 'https://script.google.com/macros/s/AKfycbyTx5Z9EPS2bB1tTLvXm3a63jGS7g2aQMbcnjd0dSSHp1IChrnJKMe9evpGL_H3JX00_A/exec';
+const baseUrl = 'https://script.google.com/macros/s/AKfycbxujadYP5cLRWDpzR76guvfJq4GJXX3e5EP6W0-wYhcjTLectSErORMxubvmWVoLLCc-g/exec';
 
 class MovieApiClient {
   final http.Client? httpClient;
@@ -21,7 +21,6 @@ class MovieApiClient {
       const url = '$baseUrl?function=getMovies';
       final response = await httpClient!.get(Uri.parse(url));
       if (response.statusCode == 200) {
-
         List<dynamic> jsonResponse = jsonDecode(response.body);
         // debugPrint(jsonResponse.toString());
         return jsonResponse.map((movieJson) => MovieModel.fromJson(movieJson)).toList();
@@ -50,23 +49,28 @@ class MovieApiClient {
 
   deleteMovie(int movieId) async {
     try {
-      var sheet = await getSheet();
-
-      await sheet?.deleteRow(movieId + 1);
-
-      // TODO: colocar reorganização dos ids em função separada
-      final cellsColumn = await sheet?.cells.column(1);
-      for (int i = movieId; i < cellsColumn!.length; i++) {
-        cellsColumn[i].post(i);
-      }
+      final url = '$baseUrl?function=deleteMovie&index=$movieId';
+      await httpClient!.post(Uri.parse(url));
+      debugPrint(url.toString());
     } catch (e) {
-      debugPrint(e.toString());
+      debugPrint("Error fetching from API: $e");
     }
   }
 
   postMovie(int index, String titulo, String diretor, String sinopse, String img) async {
-    var sheet = await getSheet();
-    final novo = [index, titulo, diretor, sinopse, img];
-    await sheet!.values.insertRow(index + 1, novo);
+    try {
+      final url = '$baseUrl?function=postMovie&index=$index&titulo=$titulo&diretor=$diretor&sinopse=$sinopse&img=$img';
+      final response = await httpClient!.post(Uri.parse(url));
+      if (response.statusCode == 200) {
+        List<dynamic> jsonResponse = jsonDecode(response.body);
+        // debugPrint(jsonResponse.toString());
+        return jsonResponse.map((movieJson) => MovieModel.fromJson(movieJson)).toList();
+      } else {
+        debugPrint('Error -getAll');
+      }
+    } catch (e) {
+      debugPrint("Error fetching from API: $e");
+    }
+    return [];
   }
 }
