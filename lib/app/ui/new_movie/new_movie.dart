@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gsheets/gsheets.dart';
-// import 'package:http/http.dart' as http;
 import 'package:summer_class_app/app/controllers/new_movie_controller.dart';
-import 'package:summer_class_app/app/data/repository/movie_repository.dart';
 
 class NewMoviePage extends GetView<NewMovieController> {
   NewMoviePage({Key? key}) : super(key: key);
@@ -36,6 +33,7 @@ class NewMoviePage extends GetView<NewMovieController> {
                       titulo = "Título pendente";
                     }
                   },
+                  // Não estamos usando o validator, mas deixei o código comentado como exemplo, caso precise
                   // validator: (String? value) {
                   //   if (value == null || value.isEmpty) {
                   //     return "Título pendente";
@@ -53,12 +51,6 @@ class NewMoviePage extends GetView<NewMovieController> {
                       diretor = "Diretor pendente";
                     }
                   },
-                  // validator: (String? value) {
-                  //   if (value == null || value.isEmpty) {
-                  //     return "Diretor pendente";
-                  //   }
-                  //   return null;
-                  // },
                 ),TextFormField(
                   decoration: const InputDecoration(
                     hintText: 'Sinopse',
@@ -69,12 +61,6 @@ class NewMoviePage extends GetView<NewMovieController> {
                       sinopse = "Sinopse pendente";
                     }
                   },
-                  // validator: (String? value) {
-                  //   if (value == null || value.isEmpty) {
-                  //     return "Sinopse pendente";
-                  //   }
-                  //   return null;
-                  // },
                 ),
                 TextFormField(
                   decoration: const InputDecoration(
@@ -86,19 +72,12 @@ class NewMoviePage extends GetView<NewMovieController> {
                       img = "https://umquatroquatro.com.br/wp-content/uploads/%C3%ADcone-claquete.png";
                     }
                   },
-                  // validator: (String? value) {
-                  //   if (value == null || value.isEmpty) {
-                  //     return 'Url pendente';
-                  //   }
-                  //   return null;
-                  // },
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: ElevatedButton(
                     onPressed: () async {
-                      // Validate will return true if the form is valid, or false if
-                      // the form is invalid.
+                      // Validate retorna true se o form for válido
                       if (_formKey.currentState!.validate()) {
                         // Process data.
                         _formKey.currentState!.save();

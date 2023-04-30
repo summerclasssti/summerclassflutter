@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gsheets/gsheets.dart';
-// import 'package:http/http.dart' as http;
 import 'package:summer_class_app/app/controllers/new_movie_controller.dart';
 import 'package:summer_class_app/app/controllers/update_movie_controller.dart';
 import 'package:summer_class_app/app/data/model/movie_model.dart';
-import 'package:summer_class_app/app/data/repository/movie_repository.dart';
 
 class UpdateMoviePage extends GetView<UpdateMovieController> {
   UpdateMoviePage({Key? key}) : super(key: key);
@@ -40,12 +37,6 @@ class UpdateMoviePage extends GetView<UpdateMovieController> {
                           titulo = value;
                         }
                       },
-                      // validator: (String? value) {
-                      //   if (value == null || value.isEmpty) {
-                      //     return "Título pendente";
-                      //   }
-                      //   return null;
-                      // },
                     ),
                     TextFormField(
                       decoration: const InputDecoration(
@@ -58,12 +49,6 @@ class UpdateMoviePage extends GetView<UpdateMovieController> {
                           diretor = value;
                         }
                       },
-                      // validator: (String? value) {
-                      //   if (value == null || value.isEmpty) {
-                      //     return "Diretor pendente";
-                      //   }
-                      //   return null;
-                      // },
                     ),TextFormField(
                       decoration: const InputDecoration(
                         hintText: 'Sinopse',
@@ -75,12 +60,6 @@ class UpdateMoviePage extends GetView<UpdateMovieController> {
                           sinopse = value;
                         }
                       },
-                      // validator: (String? value) {
-                      //   if (value == null || value.isEmpty) {
-                      //     return "Sinopse pendente";
-                      //   }
-                      //   return null;
-                      // },
                     ),
                     TextFormField(
                       decoration: const InputDecoration(
@@ -93,19 +72,11 @@ class UpdateMoviePage extends GetView<UpdateMovieController> {
                           img = value;
                         }
                       },
-                      // validator: (String? value) {
-                      //   if (value == null || value.isEmpty) {
-                      //     return 'Url pendente';
-                      //   }
-                      //   return null;
-                      // },
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: ElevatedButton(
                         onPressed: () async {
-                          // Validate will return true if the form is valid, or false if
-                          // the form is invalid.
                           if (_formKey.currentState!.validate()) {
                             // Process data.
                             _formKey.currentState!.save();

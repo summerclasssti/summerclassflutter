@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:gsheets/gsheets.dart';
 import 'package:http/http.dart' as http;
-import 'package:meta/meta.dart';
 import 'package:summer_class_app/app/data/model/movie_model.dart';
 
 const baseUrl = 'https://script.google.com/macros/s/AKfycbxujadYP5cLRWDpzR76guvfJq4GJXX3e5EP6W0-wYhcjTLectSErORMxubvmWVoLLCc-g/exec';
