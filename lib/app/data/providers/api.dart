@@ -40,18 +40,20 @@ class MovieApiClient {
 
   postMovie(int index, String titulo, String diretor, String sinopse, String img) async {
     try {
-      final url = '$baseUrl?function=postMovie&index=$index&titulo=$titulo&diretor=$diretor&sinopse=$sinopse&img=$img';
-      final response = await httpClient!.post(Uri.parse(url));
-      if (response.statusCode == 200) {
-        List<dynamic> jsonResponse = jsonDecode(response.body);
-        // debugPrint(jsonResponse.toString());
-        return jsonResponse.map((movieJson) => MovieModel.fromJson(movieJson)).toList();
-      } else {
-        debugPrint('Error -getAll');
-      }
+      final url = Uri.parse('$baseUrl?function=postMovie&index=$index');
+      debugPrint(img);
+      final postBody = {
+        "titulo": titulo,
+        "diretor": diretor,
+        "sinopse": sinopse,
+        "img": img
+      };
+      await httpClient!.post(
+        url,
+        body: postBody
+      );
     } catch (e) {
       debugPrint("Error fetching from API: $e");
     }
-    return [];
   }
 }

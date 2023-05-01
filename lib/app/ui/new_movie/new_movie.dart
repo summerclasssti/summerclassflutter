@@ -1,5 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:summer_class_app/app/controllers/new_movie_controller.dart';
 
 class NewMoviePage extends GetView<NewMovieController> {
@@ -10,7 +15,20 @@ class NewMoviePage extends GetView<NewMovieController> {
   String? titulo;
   String? diretor;
   String? sinopse;
-  String? img;
+  String imgBase64 = "";
+  File? _image;
+  Uint8List? imageBytes;
+
+  Future<void> imagePicker() async {
+    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      _image = File(pickedFile.path);
+      imageBytes = await pickedFile.readAsBytes();
+      imgBase64 = base64Encode(imageBytes!);
+      controller.update();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +51,6 @@ class NewMoviePage extends GetView<NewMovieController> {
                       titulo = "Título pendente";
                     }
                   },
-                  // Não estamos usando o validator, mas deixei o código comentado como exemplo, caso precise
-                  // validator: (String? value) {
-                  //   if (value == null || value.isEmpty) {
-                  //     return "Título pendente";
-                  //   }
-                  //   return null;
-                  // },
                 ),
                 TextFormField(
                   decoration: const InputDecoration(
@@ -51,7 +62,8 @@ class NewMoviePage extends GetView<NewMovieController> {
                       diretor = "Diretor pendente";
                     }
                   },
-                ),TextFormField(
+                ),
+                TextFormField(
                   decoration: const InputDecoration(
                     hintText: 'Sinopse',
                   ),
@@ -62,17 +74,42 @@ class NewMoviePage extends GetView<NewMovieController> {
                     }
                   },
                 ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: 'Img url',
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: ElevatedButton(
+                    onPressed: imagePicker,
+                    child: const Text('Adicionar imagem'),
                   ),
-                  onSaved: (String? value) {
-                    img = value;
-                    if (value == null || value.isEmpty) {
-                      img = "https://umquatroquatro.com.br/wp-content/uploads/%C3%ADcone-claquete.png";
-                    }
-                  },
                 ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: _image != null
+                      ? Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      image: DecorationImage(
+                        image: MemoryImage(imageBytes!),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    width: 100,
+                    height: 100,
+                  )
+                      : Container(
+                    width: 100,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: const Icon(
+                      Icons.camera_alt,
+                      color: Colors.grey,
+                      size: 80,
+                    ),
+                  ),
+                ),
+                if (imgBase64.length >= 50000) const Text("Imagem muito grande"),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: ElevatedButton(
@@ -81,7 +118,10 @@ class NewMoviePage extends GetView<NewMovieController> {
                       if (_formKey.currentState!.validate()) {
                         // Process data.
                         _formKey.currentState!.save();
-                        controller.postMovie(newIndex, titulo!, diretor!, sinopse!, img!);
+                        // if (imgBase64.length >= 50000 || imgBase64 == "") {
+                        //   imgBase64 = controller.getImageBase64("Claquete") as String;
+                        // }
+                        controller.postMovie(newIndex, titulo!, diretor!, sinopse!, imgBase64);
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Salvando...')));
                       }
@@ -90,9 +130,9 @@ class NewMoviePage extends GetView<NewMovieController> {
                   ),
                 ),
               ],
-            )
+            ),
           );
-        }
+        },
       ),
     );
   }

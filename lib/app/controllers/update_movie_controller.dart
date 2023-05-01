@@ -14,7 +14,7 @@ class UpdateMovieController extends GetxController {
     movieRepository!.updateMovie(index, titulo, diretor, sinopse, img);
     Future.delayed(const Duration(seconds: 3), () {
       homeController.reloadData();
-      Get.toNamed(Routes.HOME);
+      Get.offAllNamed(Routes.HOME);
     });
   }
 }
