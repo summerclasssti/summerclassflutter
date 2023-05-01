@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:summer_class_app/app/data/model/movie_model.dart';
@@ -53,18 +56,17 @@ class HomeController extends GetxController {
   void fillMovieInfo(List<MovieModel> movieList) {
     int i = 1;
     for(MovieModel movie in movieList ){
+      Uint8List image = Uint8List.fromList(base64Decode(movie.img));
       titles.add("");
       images.add(
         Hero(
-              tag: i,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20.0),
-                child: Image.network(
-                  movie.img,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),);
+          tag: i,
+          child: Image.memory(
+            image,
+            fit: BoxFit.cover,
+          ),
+        ),
+      );
       i++;
     }
     // Adiciona um card de adicionar depois da lista de filmes

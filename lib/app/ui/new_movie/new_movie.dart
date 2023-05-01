@@ -76,16 +76,9 @@ class NewMoviePage extends GetView<NewMovieController> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: ElevatedButton(
-                    onPressed: imagePicker,
-                    child: const Text('Adicionar imagem'),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: _image != null
-                      ? Container(
-                    decoration: BoxDecoration(
+                    ? Container(
+                      decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
                       image: DecorationImage(
                         image: MemoryImage(imageBytes!),
@@ -95,18 +88,25 @@ class NewMoviePage extends GetView<NewMovieController> {
                     width: 100,
                     height: 100,
                   )
-                      : Container(
-                    width: 100,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
+                    : Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
                     child: const Icon(
                       Icons.camera_alt,
                       color: Colors.grey,
                       size: 80,
                     ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: ElevatedButton(
+                    onPressed: imagePicker,
+                    child: const Text('Adicionar imagem'),
                   ),
                 ),
                 if (imgBase64.length >= 50000) const Text("Imagem muito grande"),
@@ -118,9 +118,6 @@ class NewMoviePage extends GetView<NewMovieController> {
                       if (_formKey.currentState!.validate()) {
                         // Process data.
                         _formKey.currentState!.save();
-                        // if (imgBase64.length >= 50000 || imgBase64 == "") {
-                        //   imgBase64 = controller.getImageBase64("Claquete") as String;
-                        // }
                         controller.postMovie(newIndex, titulo!, diretor!, sinopse!, imgBase64);
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Salvando...')));
