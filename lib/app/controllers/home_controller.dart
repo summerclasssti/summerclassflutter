@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:summer_class_app/app/data/model/movie_model.dart';
 import 'package:summer_class_app/app/data/repository/movie_repository.dart';
@@ -53,20 +53,29 @@ class HomeController extends GetxController {
   }
 
   //Preenche a lista de Widgets que ficam na HomePage. Recebe uma lista de MovieModel.
-  void fillMovieInfo(List<MovieModel> movieList) {
+  Future<void> fillMovieInfo(List<MovieModel> movieList) async {
     int i = 1;
     for(MovieModel movie in movieList ){
-      Uint8List image = Uint8List.fromList(base64Decode(movie.img));
+      Uint8List? image = Uint8List.fromList(base64Decode(movie.img));
       titles.add("");
       images.add(
-        Hero(
-          tag: i,
-          child: Image.memory(
-            image,
-            fit: BoxFit.cover,
+        movie.img != ""
+          ? Hero(
+            tag: i,
+            child: Image.memory(
+              image,
+              fit: BoxFit.cover,
+
+            ),
+          )
+          : Hero (
+            tag: i,
+            child: Image.asset(
+              "assets/claquete.png",
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-      );
+        );
       i++;
     }
     // Adiciona um card de adicionar depois da lista de filmes
