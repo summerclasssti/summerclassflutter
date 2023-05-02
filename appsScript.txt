@@ -10,10 +10,13 @@ function doGet(e) {
 
 function doPost(e) {
   var func = e.parameter.function;
+  var requestBody = e.postData.contents;
+  var movieData = JSON.parse(requestBody);
+
 
   switch(func) {
     case 'postMovie':
-      return postMovie(e);
+      return postMovie(e, movieData);
     case 'deleteMovie':
       return deleteMovie(e);
     default:
@@ -42,23 +45,26 @@ function getMovies() {
   return ContentService.createTextOutput(JSON.stringify(data)).setMimeType(ContentService.MimeType.JSON);
 }
 
-function postMovie (e) {
+function postMovie (e, data) {
   var sheet = SpreadsheetApp.openById("1JClY82U2bNpZd8pyOmPGnynUJbWEB_-0NbKKV5QK7CA");
   var page = sheet.getSheetByName("Página 1");
 
-  var movieId = e.parameter.index;
-  var rowToPost = parseInt(e.parameter.index) + 1;
-  var titulo = e.parameter.titulo;
-  var diretor = e.parameter.diretor;
-  var sinopse = e.parameter.sinopse;
-  var img = e.parameter.img;
+  // elementos passados com parâmetros na url
+  var movieId = parseInt(e.parameter.index);
+  var rowToPost = movieId + 1;
+
+  // elementos passados no body da requisição
+  var titulo = data.titulo;
+  var diretor = data.diretor;
+  var sinopse = data.sinopse;
+  var img = data.img;
 
   // range(linha, coluna, numLinhas, numColunas)
   var range = page.getRange(rowToPost, 1, 1, 5);
 
   range.setValues([[movieId, titulo, diretor, sinopse, img]]);
 
-  return ContentService.createTextOutput(`Salvo...`);
+  return ContentService.createTextOutput(`Salvo... ${titulo}, ${diretor}, ${sinopse}, ${img}`);
 }
 
 function deleteMovie (e) {
