@@ -3,19 +3,18 @@ import 'package:get/get.dart';
 import 'package:summer_class_app/app/controllers/details_controller.dart';
 import 'package:summer_class_app/app/data/model/movie_model.dart';
 
-class DetailsPage extends StatelessWidget {
-  const DetailsPage({Key? key}) : super(key: key);
+class DetailsPage extends GetView<DetailsController> {
+  DetailsPage({Key? key}) : super(key: key);
 
+  MovieModel movieInfo = Get.arguments["movie_info"];
+  int heroTag = Get.arguments["tag"];
 
   @override
   Widget build(BuildContext context) {
-    MovieModel movieInfo = Get.arguments["movie_info"];
-    int heroTag = Get.arguments["tag"];
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(title: const Text('Sobre o Filme'), centerTitle: true, automaticallyImplyLeading: true,),
       body: GetBuilder<DetailsController>(
-          init: DetailsController(),
           builder: (_) {
             return ListView(
               children: [
@@ -31,9 +30,9 @@ class DetailsPage extends StatelessWidget {
                             colors: [Colors.white, Colors.black],
                           ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
                         },
-                        child: Image.network(
-                          movieInfo.img,
-                          fit: BoxFit.fitWidth,
+                        child: Image.memory(
+                          controller.image!,
+                          fit: BoxFit.cover,
                           width: double.infinity,
                         ),
                       ),

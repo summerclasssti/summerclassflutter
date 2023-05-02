@@ -65,7 +65,6 @@ class HomeController extends GetxController {
             child: Image.memory(
               image,
               fit: BoxFit.cover,
-
             ),
           )
           : Hero (

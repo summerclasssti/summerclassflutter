@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:summer_class_app/app/controllers/home_controller.dart';
@@ -16,6 +19,13 @@ class DetailsController extends GetxController {
   final movieInfo = Get.arguments["movie_info"];
   get likedMovie => _likedMovie.value;
   set likedMovie(value) => _likedMovie.value = value;
+  Uint8List? image;
+
+  @override
+  void onInit() {
+    image = Uint8List.fromList(base64Decode(movieInfo.img));
+    super.onInit();
+  }
 
   //Executado ao pressionar o coração de like.
   void onPressedLikeBtn() {
