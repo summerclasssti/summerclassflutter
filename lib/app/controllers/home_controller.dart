@@ -62,16 +62,22 @@ class HomeController extends GetxController {
         movie.img != ""
           ? Hero(
             tag: i,
-            child: Image.memory(
-              image,
-              fit: BoxFit.cover,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: Image.memory(
+                image,
+                fit: BoxFit.cover,
+              ),
             ),
           )
           : Hero (
             tag: i,
-            child: Image.asset(
-              "assets/claquete.png",
-              fit: BoxFit.cover,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: Image.asset(
+                "assets/claquete.png",
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         );
