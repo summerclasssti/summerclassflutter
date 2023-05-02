@@ -30,11 +30,17 @@ class DetailsPage extends GetView<DetailsController> {
                             colors: [Colors.white, Colors.black],
                           ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
                         },
-                        child: Image.memory(
-                          controller.image!,
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                        ),
+                        child: controller.image != null
+                          ? Image.memory(
+                            controller.image!,
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                          )
+                          : Image.asset(
+                            "assets/claquete.png",
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                          ),
                       ),
                     ),
                   ],

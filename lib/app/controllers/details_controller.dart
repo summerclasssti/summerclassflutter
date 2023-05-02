@@ -23,7 +23,9 @@ class DetailsController extends GetxController {
 
   @override
   void onInit() {
-    image = Uint8List.fromList(base64Decode(movieInfo.img));
+    if (movieInfo.img != "") {
+      image = Uint8List.fromList(base64Decode(movieInfo.img));
+    }
     super.onInit();
   }
 
