@@ -12,6 +12,8 @@ class UpdateMoviePage extends GetView<UpdateMovieController> {
   UpdateMoviePage({Key? key}) : super(key: key);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  // TODO: mandar código que não deveria estar aqui pro controller
+
   MovieModel movieInfo = Get.arguments["movie_info"];
   int? updateIndex;
   String? titulo;
@@ -26,6 +28,7 @@ class UpdateMoviePage extends GetView<UpdateMovieController> {
     if (pickedFile != null) {
       imageBytes = await pickedFile.readAsBytes();
       imgBase64 = base64Encode(imageBytes!);
+      // TODO: descobrir por que que esse update não está funcionando
       controller.update();
     }
   }
