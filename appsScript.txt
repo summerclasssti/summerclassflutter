@@ -10,9 +10,10 @@ function doGet(e) {
 
 function doPost(e) {
   var func = e.parameter.function;
-  var requestBody = e.postData.contents;
-  var movieData = JSON.parse(requestBody);
-
+  if (e.requestBody != null) {
+    var requestBody = e.postData.contents;
+    var movieData = JSON.parse(requestBody);
+  }
 
   switch(func) {
     case 'postMovie':
@@ -26,18 +27,22 @@ function doPost(e) {
 
 function getMovies() {
   var sheet = SpreadsheetApp.openById("1JClY82U2bNpZd8pyOmPGnynUJbWEB_-0NbKKV5QK7CA");
-  var values = sheet.getActiveSheet().getDataRange().getValues();
+  var page = sheet.getSheetByName("Página 1");
+  var imgPage = sheet.getSheetByName("Imagens");
+  var values = page.getDataRange().getValues();
+  var imgValues = imgPage.getDataRange().getValues();
   var data = [];
 
   // começando em 1, pois a primeira coluna é apenas o id de cada página.
   for (var i = 1; i < values.length; i ++) {
     var row = values[i];
+    var imgRow = imgValues[i];
     var feedback = {};
     feedback['id'] = row[0];
     feedback['titulo'] = row[1].toString();
     feedback['diretor'] = row[2].toString();
     feedback['sinopse'] = row[3].toString();
-    feedback['img'] = row[4].toString();
+    feedback['img'] = imgRow.slice(1).join("").toString();
 
     data.push(feedback);
   }
@@ -48,21 +53,29 @@ function getMovies() {
 function postMovie (e, data) {
   var sheet = SpreadsheetApp.openById("1JClY82U2bNpZd8pyOmPGnynUJbWEB_-0NbKKV5QK7CA");
   var page = sheet.getSheetByName("Página 1");
+  var imgPage = sheet.getSheetByName("Imagens");
 
   // elementos passados com parâmetros na url
   var movieId = parseInt(e.parameter.index);
   var rowToPost = movieId + 1;
 
-  // elementos passados no body da requisição
+  // elementos passados no bory da requisição
   var titulo = data.titulo;
   var diretor = data.diretor;
   var sinopse = data.sinopse;
   var img = data.img;
 
+  var imgRow = [movieId];
+  for(let i = 0; i < img.length; i += 49999) {
+    imgRow.push(img.substring(i, i + 49999));
+  }
+
   // range(linha, coluna, numLinhas, numColunas)
   var range = page.getRange(rowToPost, 1, 1, 5);
+  var imgPageRange = imgPage.getRange(rowToPost, 1, 1, imgRow.length);
 
-  range.setValues([[movieId, titulo, diretor, sinopse, img]]);
+  range.setValues([[movieId, titulo, diretor, sinopse, ""]]);
+  imgPageRange.setValues([imgRow]);
 
   return ContentService.createTextOutput(`Salvo... ${titulo}, ${diretor}, ${sinopse}, ${img}`);
 }
@@ -70,14 +83,17 @@ function postMovie (e, data) {
 function deleteMovie (e) {
   var sheet = SpreadsheetApp.openById("1JClY82U2bNpZd8pyOmPGnynUJbWEB_-0NbKKV5QK7CA");
   var page = sheet.getSheetByName("Página 1");
+  var imgPage = sheet.getSheetByName("Imagens");
 
   var rowToDelete = parseInt(e.parameter.index) + 1;
   var lastRow = sheet.getLastRow();
 
-  sheet.deleteRow(rowToDelete);
+  page.deleteRow(rowToDelete);
+  imgPage.deleteRow(rowToDelete);
 
   for (var i = rowToDelete; i <= lastRow - 1; i++) {
     page.getRange(i, 1).setValue(i - 1);
+    imgPage.getRange(i, 1).setValue(i - 1);
   }
 
   return ContentService.createTextOutput("Deletado...");
