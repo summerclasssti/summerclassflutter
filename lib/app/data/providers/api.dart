@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:summer_class_app/app/data/model/movie_model.dart';
 
-const baseUrl = 'https://script.google.com/macros/s/AKfycbxujadYP5cLRWDpzR76guvfJq4GJXX3e5EP6W0-wYhcjTLectSErORMxubvmWVoLLCc-g/exec';
+const baseUrl = 'https://script.google.com/macros/s/AKfycbwYmVzbS_PvyUy56HZq1RXjsE_hpw7bVgczxD6sHJUde_7s6KuMOa64AJhruu9Ov7x_Xg/exec';
 
 class MovieApiClient {
   final http.Client? httpClient;
@@ -32,28 +32,30 @@ class MovieApiClient {
     try {
       final url = '$baseUrl?function=deleteMovie&index=$movieId';
       await httpClient!.post(Uri.parse(url));
-      debugPrint(url.toString());
+      // debugPrint(url.toString());
     } catch (e) {
-      debugPrint("Error fetching from API: $e");
+      debugPrint("(Delete) Error: $e");
     }
   }
 
   postMovie(int index, String titulo, String diretor, String sinopse, String img) async {
     try {
+      debugPrint("index: $index, titulo: $titulo, diretor: $diretor, sinopse: $sinopse, img: $img");
       final url = Uri.parse('$baseUrl?function=postMovie&index=$index');
-      debugPrint(img);
       final postBody = {
-        "titulo": titulo,
-        "diretor": diretor,
-        "sinopse": sinopse,
-        "img": img
+        "titulo": titulo.toString(),
+        "diretor": diretor.toString(),
+        "sinopse": sinopse.toString(),
+        "img": img.toString()
       };
+      final jsonBody = jsonEncode(postBody);
+      debugPrint(url.toString());
       await httpClient!.post(
         url,
-        body: postBody
+        body: jsonBody
       );
     } catch (e) {
-      debugPrint("Error fetching from API: $e");
+      debugPrint("(Post) Error: $e");
     }
   }
 }

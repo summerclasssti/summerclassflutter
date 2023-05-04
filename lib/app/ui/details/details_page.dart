@@ -62,7 +62,7 @@ class DetailsPage extends GetView<DetailsController> {
                         ),
                         IconButton(
                           onPressed: () {
-                            _.onPressedDeleteButton();
+                            _.onPressedDeleteButton;
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(content: Text('Deletando...')));
                           },
