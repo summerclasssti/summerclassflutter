@@ -10,13 +10,11 @@ function doGet(e) {
 
 function doPost(e) {
   var func = e.parameter.function;
-  if (e.requestBody != null) {
-    var requestBody = e.postData.contents;
-    var movieData = JSON.parse(requestBody);
-  }
 
   switch(func) {
     case 'postMovie':
+      var requestBody = e.postData.contents;
+      var movieData = JSON.parse(requestBody);
       return postMovie(e, movieData);
     case 'deleteMovie':
       return deleteMovie(e);
@@ -97,4 +95,23 @@ function deleteMovie (e) {
   }
 
   return ContentService.createTextOutput("Deletado...");
+}
+
+function createBackup() {
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  var spreadsheetName = spreadsheet.getName();
+  var backupName = spreadsheetName + " - " + Utilities.formatDate(new Date(), Session.getTimeZone(), "yyyy-MM-dd HH:mm:ss");
+  var backupFolder = DriveApp.getFolderById("1AvP5hubSLvCrixlZHh0XLmzEpl6BFIDy");
+
+  // Copia planilha e salva na pasta de backup
+  var backupCopy = spreadsheet.copy(backupName + " - Backup");
+  var backupId = backupCopy.getId();
+  var backupFile = DriveApp.getFileById(backupId);
+  backupFolder.addFile(backupFile);
+
+  // Manda um email confirmando a criação do backup
+  var recipient = Session.getActiveUser().getEmail();
+  var subject = "Backup criado para a planilha " + spreadsheetName;
+  var message = "Foi criado um backup da planilha " + spreadsheetName + " com o nome " + backupName + "- Backup.";
+  MailApp.sendEmail(recipient, subject, message);
 }

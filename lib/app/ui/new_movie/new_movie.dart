@@ -106,7 +106,7 @@ class NewMoviePage extends GetView<NewMovieController> {
                     child: const Text('Adicionar imagem'),
                   ),
                 ),
-                if (imgBase64.length >= 50000) const Text("Imagem muito grande"),
+                // if (imgBase64.length >= 50000) const Text("Imagem muito grande"),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: ElevatedButton(

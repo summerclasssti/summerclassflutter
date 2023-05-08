@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:summer_class_app/app/data/model/movie_model.dart';
 
-const baseUrl = 'https://script.google.com/macros/s/AKfycbwYmVzbS_PvyUy56HZq1RXjsE_hpw7bVgczxD6sHJUde_7s6KuMOa64AJhruu9Ov7x_Xg/exec';
+const baseUrl = 'https://script.google.com/macros/s/AKfycbz9x2Kg7f_C1J0h21mKzVAvL13UY_9V1CtBMUypStDHJUMTCnL8ahe3wB4IWlkuRLhCAg/exec';
 
 class MovieApiClient {
   final http.Client? httpClient;
@@ -32,7 +32,7 @@ class MovieApiClient {
     try {
       final url = '$baseUrl?function=deleteMovie&index=$movieId';
       await httpClient!.post(Uri.parse(url));
-      // debugPrint(url.toString());
+      debugPrint(url.toString());
     } catch (e) {
       debugPrint("(Delete) Error: $e");
     }
