@@ -50,10 +50,12 @@ class MovieApiClient {
       };
       final jsonBody = jsonEncode(postBody);
       debugPrint(url.toString());
-      await httpClient!.post(
+      debugPrint(jsonBody);
+      final response = await httpClient!.post(
         url,
         body: jsonBody
       );
+      debugPrint(response.body.toString());
     } catch (e) {
       debugPrint("(Post) Error: $e");
     }
