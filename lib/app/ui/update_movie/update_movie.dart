@@ -27,8 +27,7 @@ class UpdateMoviePage extends GetView<UpdateMovieController> {
 
     if (pickedFile != null) {
       imageBytes = await pickedFile.readAsBytes();
-      imgBase64 = base64Encode(imageBytes!);
-      // TODO: descobrir por que que esse update não está funcionando
+      imgBase64 = await base64Encode(imageBytes!);
       controller.update();
     }
   }
@@ -37,7 +36,7 @@ class UpdateMoviePage extends GetView<UpdateMovieController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Update Movie Page')),
-      body: GetBuilder<NewMovieController>(
+      body: GetBuilder<UpdateMovieController>(
           builder: (_) {
             return Form(
                 key: _formKey,
@@ -121,11 +120,11 @@ class UpdateMoviePage extends GetView<UpdateMovieController> {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             // Process data.
-                            // _formKey.currentState!.save();
-                            // updateIndex = movieInfo.id;
-                            // controller.updateMovie(updateIndex!, titulo!, diretor!, sinopse!, imgBase64);
+                            _formKey.currentState!.save();
+                            updateIndex = movieInfo.id;
+                            controller.updateMovie(updateIndex!, titulo!, diretor!, sinopse!, imgBase64);
                             ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Em manutenção...')));
+                                const SnackBar(content: Text('Salvando...')));
                           }
                         },
                         child: const Text('Salvar'),

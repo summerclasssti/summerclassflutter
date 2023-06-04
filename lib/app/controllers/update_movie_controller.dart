@@ -10,11 +10,8 @@ class UpdateMovieController extends GetxController {
 
   final HomeController homeController = Get.find();
 
-  updateMovie(int index, String titulo, String diretor, String sinopse, String img) {
-    movieRepository!.updateMovie(index, titulo, diretor, sinopse, img);
-    Future.delayed(const Duration(seconds: 3), () {
-      homeController.reloadData();
-      Get.offAllNamed(Routes.HOME);
-    });
+  updateMovie(int index, String titulo, String diretor, String sinopse, String img) async {
+    await movieRepository!.updateMovie(index, titulo, diretor, sinopse, img);
+    homeController.reloadData();
   }
 }

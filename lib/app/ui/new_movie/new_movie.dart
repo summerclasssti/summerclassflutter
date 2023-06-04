@@ -10,6 +10,8 @@ class NewMoviePage extends GetView<NewMovieController> {
   NewMoviePage({Key? key}) : super(key: key);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  // TODO: mandar código que não deveria estar aqui pro controller
+
   int newIndex = Get.arguments["newIndex"];
   String? titulo;
   String? diretor;
@@ -22,7 +24,7 @@ class NewMoviePage extends GetView<NewMovieController> {
 
     if (pickedFile != null) {
       imageBytes = await pickedFile.readAsBytes();
-      imgBase64 = base64Encode(imageBytes!);
+      imgBase64 = await base64Encode(imageBytes!);
       controller.update();
     }
   }
