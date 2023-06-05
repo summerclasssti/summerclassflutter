@@ -1,36 +1,10 @@
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:summer_class_app/app/controllers/new_movie_controller.dart';
 import 'package:summer_class_app/app/controllers/update_movie_controller.dart';
-import 'package:summer_class_app/app/data/model/movie_model.dart';
 
 class UpdateMoviePage extends GetView<UpdateMovieController> {
   UpdateMoviePage({Key? key}) : super(key: key);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  // TODO: mandar código que não deveria estar aqui pro controller
-
-  MovieModel movieInfo = Get.arguments["movie_info"];
-  int? updateIndex;
-  String? titulo;
-  String? diretor;
-  String? sinopse;
-  String imgBase64 = "";
-  Uint8List? imageBytes;
-
-  Future<void> imagePicker() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-
-    if (pickedFile != null) {
-      imageBytes = await pickedFile.readAsBytes();
-      imgBase64 = await base64Encode(imageBytes!);
-      controller.update();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +23,9 @@ class UpdateMoviePage extends GetView<UpdateMovieController> {
                       ),
                       onSaved: (String? value) {
                         if (value == null || value.isEmpty) {
-                          titulo = movieInfo.titulo;
+                          controller.titulo = controller.movieInfo.titulo;
                         } else {
-                          titulo = value;
+                          controller.titulo = value;
                         }
                       },
                     ),
@@ -61,9 +35,9 @@ class UpdateMoviePage extends GetView<UpdateMovieController> {
                       ),
                       onSaved: (String? value) {
                         if (value == null || value.isEmpty) {
-                          diretor = movieInfo.diretor;
+                          controller.diretor = controller.movieInfo.diretor;
                         } else {
-                          diretor = value;
+                          controller.diretor = value;
                         }
                       },
                     ),TextFormField(
@@ -72,20 +46,20 @@ class UpdateMoviePage extends GetView<UpdateMovieController> {
                       ),
                       onSaved: (String? value) {
                         if (value == null || value.isEmpty) {
-                          sinopse = movieInfo.sinopse;
+                          controller.sinopse = controller.movieInfo.sinopse;
                         } else {
-                          sinopse = value;
+                          controller.sinopse = value;
                         }
                       },
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: imageBytes != null
+                      child: controller.imageBytes != null
                         ? Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
                           image: DecorationImage(
-                            image: MemoryImage(imageBytes!),
+                            image: MemoryImage(controller.imageBytes!),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -109,11 +83,11 @@ class UpdateMoviePage extends GetView<UpdateMovieController> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: ElevatedButton(
-                        onPressed: imagePicker,
+                        onPressed: controller.imagePicker,
                         child: const Text('Adicionar imagem'),
                       ),
                     ),
-                    if (imgBase64.length >= 50000) const Text("Imagem muito grande"),
+                    if (controller.imgBase64!.length >= 50000) const Text("Imagem muito grande"),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: ElevatedButton(
@@ -121,8 +95,8 @@ class UpdateMoviePage extends GetView<UpdateMovieController> {
                           if (_formKey.currentState!.validate()) {
                             // Process data.
                             _formKey.currentState!.save();
-                            updateIndex = movieInfo.id;
-                            controller.updateMovie(updateIndex!, titulo!, diretor!, sinopse!, imgBase64);
+                            controller.updateIndex = controller.movieInfo.id;
+                            controller.updateMovie(controller.updateIndex!, controller.titulo!, controller.diretor!, controller.sinopse!, controller.imgBase64!);
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(content: Text('Salvando...')));
                           }

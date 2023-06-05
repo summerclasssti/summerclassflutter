@@ -1,33 +1,10 @@
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:summer_class_app/app/controllers/new_movie_controller.dart';
 
 class NewMoviePage extends GetView<NewMovieController> {
   NewMoviePage({Key? key}) : super(key: key);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  // TODO: mandar código que não deveria estar aqui pro controller
-
-  int newIndex = Get.arguments["newIndex"];
-  String? titulo;
-  String? diretor;
-  String? sinopse;
-  String imgBase64 = "";
-  Uint8List? imageBytes;
-
-  Future<void> imagePicker() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-
-    if (pickedFile != null) {
-      imageBytes = await pickedFile.readAsBytes();
-      imgBase64 = await base64Encode(imageBytes!);
-      controller.update();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +22,9 @@ class NewMoviePage extends GetView<NewMovieController> {
                     hintText: 'Título',
                   ),
                   onSaved: (String? value) {
-                    titulo = value;
+                    controller.titulo = value;
                     if (value == null || value.isEmpty) {
-                      titulo = "Título pendente";
+                      controller.titulo = "Título pendente";
                     }
                   },
                 ),
@@ -56,9 +33,9 @@ class NewMoviePage extends GetView<NewMovieController> {
                     hintText: 'Diretor',
                   ),
                   onSaved: (String? value) {
-                    diretor = value;
+                    controller.diretor = value;
                     if (value == null || value.isEmpty) {
-                      diretor = "Diretor pendente";
+                      controller.diretor = "Diretor pendente";
                     }
                   },
                 ),
@@ -67,20 +44,20 @@ class NewMoviePage extends GetView<NewMovieController> {
                     hintText: 'Sinopse',
                   ),
                   onSaved: (String? value) {
-                    sinopse = value!;
+                    controller.sinopse = value!;
                     if (value == null || value.isEmpty) {
-                      sinopse = "Sinopse pendente";
+                      controller.sinopse = "Sinopse pendente";
                     }
                   },
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: imageBytes != null
+                  child: controller.imageBytes != null
                     ? Container(
                       decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
                       image: DecorationImage(
-                        image: MemoryImage(imageBytes!),
+                        image: MemoryImage(controller.imageBytes!),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -104,7 +81,7 @@ class NewMoviePage extends GetView<NewMovieController> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: ElevatedButton(
-                    onPressed: imagePicker,
+                    onPressed: controller.imagePicker,
                     child: const Text('Adicionar imagem'),
                   ),
                 ),
@@ -117,7 +94,7 @@ class NewMoviePage extends GetView<NewMovieController> {
                       if (_formKey.currentState!.validate()) {
                         // Process data.
                         _formKey.currentState!.save();
-                        controller.postMovie(newIndex, titulo!, diretor!, sinopse!, imgBase64);
+                        controller.postMovie(controller.newIndex, controller.titulo!, controller.diretor!, controller.sinopse!, controller.imgBase64);
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Salvando...')));
                       }
