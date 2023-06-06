@@ -22,10 +22,7 @@ class NewMoviePage extends GetView<NewMovieController> {
                     hintText: 'Título',
                   ),
                   onSaved: (String? value) {
-                    controller.titulo = value;
-                    if (value == null || value.isEmpty) {
-                      controller.titulo = "Título pendente";
-                    }
+                    controller.setFieldInfo("titulo", value);
                   },
                 ),
                 TextFormField(
@@ -33,10 +30,7 @@ class NewMoviePage extends GetView<NewMovieController> {
                     hintText: 'Diretor',
                   ),
                   onSaved: (String? value) {
-                    controller.diretor = value;
-                    if (value == null || value.isEmpty) {
-                      controller.diretor = "Diretor pendente";
-                    }
+                    controller.setFieldInfo("diretor", value);
                   },
                 ),
                 TextFormField(
@@ -44,10 +38,7 @@ class NewMoviePage extends GetView<NewMovieController> {
                     hintText: 'Sinopse',
                   ),
                   onSaved: (String? value) {
-                    controller.sinopse = value!;
-                    if (value == null || value.isEmpty) {
-                      controller.sinopse = "Sinopse pendente";
-                    }
+                    controller.setFieldInfo("sinopse", value);
                   },
                 ),
                 Padding(

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
@@ -37,6 +38,28 @@ class NewMovieController extends GetxController {
       imageBytes = await pickedFile.readAsBytes();
       imgBase64 = await base64Encode(imageBytes!);
       update();
+    }
+  }
+
+  setFieldInfo(String field, String? value) {
+    switch(field) {
+      case "titulo":
+        if (value == null || value.isEmpty) {
+          titulo = "Título pendente";
+        }
+        break;
+      case "diretor":
+        if (value == null || value.isEmpty) {
+          titulo = "Diretor pendente";
+        }
+        break;
+      case "sinopse":
+        if (value == null || value.isEmpty) {
+          titulo = "Título pendente";
+        }
+        break;
+      default:
+        debugPrint("Campo $field não encontrado!");
     }
   }
 }
