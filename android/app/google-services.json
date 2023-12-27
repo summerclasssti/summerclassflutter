@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "265680468540",
+    "project_id": "summerclass-56cf2",
+    "storage_bucket": "summerclass-56cf2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:265680468540:android:d534d5ac97db24ae04a139",
+        "android_client_info": {
+          "package_name": "com.example.summerclass"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAF62UgEaOmmf84LWgqxHPLSgo6gwb1Ihs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
