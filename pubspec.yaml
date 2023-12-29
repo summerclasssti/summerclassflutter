@@ -31,6 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   firebase_core: ^2.24.2
+  vertical_card_pager: ^1.5.0
 
 
   # The following adds the Cupertino Icons font to your application.
