@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -119,7 +120,7 @@ class _NewMoviePageState extends State<NewMoviePage> {
                         const SnackBar(content: Text('Salvando...')));
                     _formKey.currentState!.save();
                     await postMovie(titulo!, diretor!, sinopse!, imagePath!);
-                    Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+                    Navigator.pop(context, true);
                   }
                 },
                 child: const Text('Salvar'),
@@ -165,7 +166,8 @@ class _NewMoviePageState extends State<NewMoviePage> {
       "diretor": diretor,
       "sinopse": sinopse,
       "image": fileName,
-      "liked": false,
+      "user_id": FirebaseAuth.instance.currentUser!.uid,
+      "user_email": FirebaseAuth.instance.currentUser!.email,
     };
 
     await db.collection("movies").doc(fileName).set(movie); // salvando filme
