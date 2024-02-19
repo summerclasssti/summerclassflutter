@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:summerclass/login_page.dart';
+import 'package:summerclass/sign_in.dart';
 import 'package:vertical_card_pager/vertical_card_pager.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -26,6 +28,16 @@ class _MyHomePageState extends State<MyHomePage> {
     reloadData();
   }
 
+  logout() async {
+    await SignInService().logoutGoogle();
+    if (!context.mounted) {
+      return;
+    }
+    Navigator.pushReplacement(context, 
+      MaterialPageRoute(builder: (c) => const LoginPage()
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +46,10 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Filmes nacionais"),
         centerTitle: true,
+        leading: IconButton(
+          onPressed: logout,
+          icon: const Icon(Icons.logout),
+        ),
         actions: [
           IconButton(
             onPressed: reloadData,
@@ -120,12 +136,15 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void onSelectedItem(int index) {
+  void onSelectedItem(int index) async {
     debugPrint(index.toString());
     if (index == titles.length -1) {
       Navigator.pushNamed(context, "/new");
     } else {
-      Navigator.pushNamed(context, '/details', arguments: moviesList[index]);
+      var shouldReload = await Navigator.pushNamed(context, '/details', arguments: moviesList[index]);
+      if (shouldReload == true) {
+        reloadData();
+      }
     }
   }
 }
