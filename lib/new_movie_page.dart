@@ -112,14 +112,14 @@ class _NewMoviePageState extends State<NewMoviePage> {
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: ElevatedButton(
                 onPressed: () async {
-                  // Validate retorna true se o form for válido
+                  // Validate returns true if the form is valid
                   if (_formKey.currentState!.validate()) {
-                    // Process data.
+                    // Process data
                     ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Salvando...')));
                     _formKey.currentState!.save();
-                    await postMovie(titulo!, diretor!, sinopse!, imagePath!);
-                    Navigator.pop(context, true);
+                    await postMovie(titulo!, diretor!, sinopse!, imagePath);
+                    Navigator.pushNamedAndRemoveUntil(context, '/', (Route<dynamic> route) => false);
                   }
                 },
                 child: const Text('Salvar'),
@@ -155,8 +155,14 @@ class _NewMoviePageState extends State<NewMoviePage> {
     }
   }
 
-  postMovie(String titulo, String diretor, String sinopse, File imagePath) async {
-    Uint8List imageBytes = await imagePath.readAsBytes();
+  postMovie(String titulo, String diretor, String sinopse, File? imagePath) async {
+    Uint8List imageBytes;
+    if (imagePath != null) {
+      imageBytes = await imagePath.readAsBytes();
+    } else {
+      ByteData assetData = await rootBundle.load('assets/claquete.png');
+      imageBytes = assetData.buffer.asUint8List();
+    }
     String base64Image = base64Encode(imageBytes);
 
     Map<String, dynamic> movie = {
