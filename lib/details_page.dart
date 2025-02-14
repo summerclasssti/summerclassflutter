@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 class DetailsPage extends StatefulWidget {
@@ -12,7 +11,6 @@ class DetailsPage extends StatefulWidget {
 
 class _DetailsPageState extends State<DetailsPage> {
   final db = FirebaseFirestore.instance;
-  final storage = FirebaseStorage.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -139,6 +137,5 @@ class _DetailsPageState extends State<DetailsPage> {
 
   Future<void> _onPressedDeleteButton(Map<String, dynamic> movie) async {
     await db.collection("movies").doc(movie["id"]).delete();
-    await storage.ref().child(movie["id"]).delete();
   }
 }

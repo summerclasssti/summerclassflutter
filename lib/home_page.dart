@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:summerclass/login_page.dart';
 import 'package:summerclass/sign_in.dart';
 import 'package:vertical_card_pager/vertical_card_pager.dart';
+import 'dart:convert';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -14,7 +14,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final db = FirebaseFirestore.instance;
-  final storage = FirebaseStorage.instance;
 
   bool isLoading = true;
   late bool isLogged;
@@ -83,8 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
           movie["diretor"] = docSnapshot.data()["diretor"];
           movie["sinopse"] = docSnapshot.data()["sinopse"];
           movie["liked"] = docSnapshot.data()["liked"];
-
-          movie["image"] = await storage.ref().child(docSnapshot.data()["image"]).getData();
+          movie["image"] = docSnapshot.data()["image"];
 
           moviesList.add(movie);
         }
@@ -105,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ClipRRect(
           borderRadius: BorderRadius.circular(20.0),
           child: Image.memory(
-            movie["image"],
+            base64Decode(movie["image"]),
             fit: BoxFit.cover,
           ),
         )

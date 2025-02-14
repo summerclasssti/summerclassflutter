@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -18,7 +18,6 @@ class NewMoviePage extends StatefulWidget {
 class _NewMoviePageState extends State<NewMoviePage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final db = FirebaseFirestore.instance;
-  final storage = FirebaseStorage.instance;
 
   String? titulo;
   String? diretor;
@@ -157,19 +156,18 @@ class _NewMoviePageState extends State<NewMoviePage> {
   }
 
   postMovie(String titulo, String diretor, String sinopse, File imagePath) async {
-    String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-    final ref = storage.ref().child(fileName); // criando referência
-    await ref.putFile(imagePath); // salvando imagem
+    Uint8List imageBytes = await imagePath.readAsBytes();
+    String base64Image = base64Encode(imageBytes);
 
     Map<String, dynamic> movie = {
       "titulo": titulo,
       "diretor": diretor,
       "sinopse": sinopse,
-      "image": fileName,
+      "image": base64Image,
       "user_id": FirebaseAuth.instance.currentUser!.uid,
       "user_email": FirebaseAuth.instance.currentUser!.email,
     };
 
-    await db.collection("movies").doc(fileName).set(movie); // salvando filme
+    await db.collection("movies").add(movie); // salvando filme
   }
 }
